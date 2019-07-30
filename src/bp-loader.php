@@ -89,13 +89,17 @@ if ( empty( $is_bp_active ) && empty( $is_bb_active ) && empty( $bp_incompatible
 	function bp_core_set_bbpress_buddypress_active( $value, $option ) {
 
 		// Do not add the "bbpress/bbpress.php" & "buddypress/bp-loader.php" on "/wp-admin/plugins.php" page otherwise it will show the plugin file not exists error.
-		if ( is_network_admin() || strpos( $_SERVER['REQUEST_URI'], '/wp-admin/plugins.php' ) !== false || strpos( $_SERVER['REQUEST_URI'], '/wp-admin/admin-ajax.php' ) !== false ) {
+		if ( is_network_admin()
+		     || strpos( $_SERVER['REQUEST_URI'], '/wp-admin/plugins.php' ) !== false
+		     || strpos( $_SERVER['REQUEST_URI'], '/wp-admin/admin-ajax.php' ) !== false
+		) {
 			return $value;
 		} else {
 			// Check if Forum Component is enabled if so then add
 			if ( bp_is_active( 'forums' ) ) {
 				array_push( $value, 'bbpress/bbpress.php' );
 			}
+
 			array_push( $value, 'buddypress/bp-loader.php' );
 		}
 

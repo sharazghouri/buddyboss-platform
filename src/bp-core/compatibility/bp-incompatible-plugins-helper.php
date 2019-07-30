@@ -18,16 +18,32 @@ remove_action( 'bp_include', 'bp_follow_init' );
  */
 remove_action( 'plugins_loaded', 'bpgei_plugin_init' );
 
-/**
- * Include plugin when plugin is activated
- *
- * Support Rank Math SEO
- */
 function bp_helper_plugins_loaded_callback() {
 	global $bp_plugins;
+
+	/**
+	 * Include plugin when plugin is activated
+	 *
+	 * Support Rank Math SEO
+	 */
 	if ( in_array( 'seo-by-rank-math/rank-math.php', $bp_plugins ) && ! is_admin() ) {
 		require( buddypress()->plugin_dir . '/bp-core/compatibility/bp-rankmath-plugin-helpers.php' );
 	}
+
+	/**
+	 * Include plugin when plugin is activated
+	 *
+	 * Support BP Power SEO
+	 */
+	if ( in_array( 'bp-power-seo/bp-power-seo.php', $bp_plugins ) ) {
+		if ( is_network_admin()
+		     || strpos( $_SERVER['REQUEST_URI'], '/wp-admin/plugins.php' ) !== false
+		     || strpos( $_SERVER['REQUEST_URI'], '/wp-admin/admin-ajax.php' ) !== false
+		) {
+			remove_all_actions( 'admin_init' );
+		}
+	}
+
 }
 
 add_action( 'init', 'bp_helper_plugins_loaded_callback', 1000 );
