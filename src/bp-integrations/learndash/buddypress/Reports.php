@@ -221,7 +221,6 @@ class Reports
 			return $params;
 		}
 
-		$params['user_ids'] = [bp_loggedin_user_id()];
 		return $params;
 	}
 
