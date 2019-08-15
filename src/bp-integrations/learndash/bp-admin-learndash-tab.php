@@ -50,7 +50,7 @@ class BP_LearnDash_Admin_Integration_Tab extends BP_Admin_Integration_tab {
 		$fields = apply_filters('bp_integrations_learndash_fields', array(
 			'buddypress' => [$this, 'registerBuddypressSettings'],
 			'learndash' => [$this, 'registerLearnDashSettings'],
-			//'reports' => [$this, 'registerReportsSettings'],
+			'reports' => [$this, 'registerReportsSettings'],
 		), $this);
 
 		foreach ($fields as $key => $callback) {
