@@ -65,7 +65,7 @@ class CoursesReportsGenerator extends ReportsGenerator
 			'user'            => $activity->user_display_name,
 			'course_id'       => $activity->activity_course_id,
 			'course'          => $activity->activity_course_title,
-			'start_date'      => $activity->activity_started_formatted,
+			'start_date'      => $this->startDate( $activity),
 			'completion_date' => $this->completionDate($activity),
 			'updated_date'    => $this->updatedDate($activity),
 			'time_spent'      => $this->timeSpent($activity),

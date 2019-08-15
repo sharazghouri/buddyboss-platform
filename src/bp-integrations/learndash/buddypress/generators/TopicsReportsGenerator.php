@@ -69,7 +69,7 @@ class TopicsReportsGenerator extends ReportsGenerator
 			'course_id'       => $activity->activity_course_id,
 			'course'          => $activity->activity_course_title,
 			'topic'           => $activity->post_title,
-			'start_date'      => $activity->activity_started_formatted,
+			'start_date'      => $this->startDate( $activity),
 			'completion_date' => $this->completionDate($activity),
 			'time_spent'      => $this->timeSpent($activity),
 		];

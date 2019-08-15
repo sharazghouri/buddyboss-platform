@@ -70,7 +70,7 @@ class LessonsReportsGenerator extends ReportsGenerator
 			'course_id'       => $activity->activity_course_id,
 			'course'          => $activity->activity_course_title,
 			'lesson'          => $activity->post_title,
-			'start_date'      => $activity->activity_started_formatted,
+			'start_date'      => $this->startDate( $activity),
 			'completion_date' => $this->completionDate($activity),
 			'updated_date'    => $this->updatedDate($activity),
 			'time_spent'      => $this->timeSpent($activity),

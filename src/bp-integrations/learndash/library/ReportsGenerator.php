@@ -533,4 +533,14 @@ class ReportsGenerator
 
 		return $activity->activity_status? get_post_meta($activity->activity_course_id, 'course_points', true) : '0';
 	}
+
+	/**
+	 * Format start date
+	 *
+	 * @since BuddyBoss 1.0.0
+	 */
+	protected function startDate($activity)
+	{
+		return isset( $activity->activity_started_formatted ) ? $activity->activity_started_formatted : '-';
+	}
 }
