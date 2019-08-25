@@ -4798,3 +4798,27 @@ function bp_infusion_soft_sync_bp_data( $user_id ) {
 
 }
 add_action( 'user_register', 'bp_infusion_soft_sync_bp_data', 10, 1 );
+
+function bp_profile_panel_add_post_feature() {
+	global $bp;
+ 
+	bp_core_new_nav_item( array(
+		'name' => __( 'Add Post', 'buddyboss' ),
+		'slug' => 'add-post',
+		'screen_function' => 'bp_members_screen_add_post',
+		'position' => 100
+		)
+	);
+}
+add_action( 'bp_setup_nav', 'bp_profile_panel_add_post_feature', 100 );
+
+function bp_members_screen_add_post()
+{
+    add_action('bp_template_content', 'bp_members_screen_add_post_form');
+    bp_core_load_template(apply_filters('bp_core_template_plugin', 'members/single/plugins'));
+}
+
+function bp_members_screen_add_post_form()
+{
+	bp_nouveau_activity_member_post_form();
+}
