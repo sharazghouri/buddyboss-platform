@@ -225,6 +225,7 @@ class BP_Activity_List_Table extends WP_List_Table {
 		$screen         = get_current_screen();
 		$hidden_columns = get_hidden_columns( $screen );
 		$hidden_columns = ( ! empty( $hidden_columns ) ) ? $hidden_columns : array();
+		
 
 		$this->_column_headers = array(
 			$this->get_columns(),

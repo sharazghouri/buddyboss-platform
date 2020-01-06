@@ -206,6 +206,7 @@ class BP_Groups_List_Table extends WP_List_Table {
 		$hidden_columns = get_hidden_columns( $screen );
 		$hidden_columns = ( ! empty( $hidden_columns ) ) ? $hidden_columns : array();
 
+
 		$this->_column_headers = array(
 			$this->get_columns(),
 			$hidden_columns,
