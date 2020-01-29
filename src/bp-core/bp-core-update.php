@@ -285,6 +285,11 @@ function bp_version_updater() {
 		if ( $raw_db_version < 14001 ) {
 			bb_update_to_1_2_3();
 		}
+
+		// BuddyBoss Version 1.2.5
+		if ( $raw_db_version < 14501 ) {
+			bb_update_to_1_2_5();
+		}
 	}
 
 	/* All done! *************************************************************/
@@ -586,6 +591,20 @@ function bp_update_to_3_1_1() {
  */
 function bb_update_to_1_2_3() {
 	bp_add_option( '_bp_ignore_deprecated_code', false );
+}
+
+/**
+ * 1.2.5 update routine.
+ *
+ * @since BuddyBoss 1.2.5
+ */
+function bb_update_to_1_2_5() {
+
+	bp_core_install_invitations();
+
+	if ( bp_is_active( 'groups' ) ) {
+		bp_groups_migrate_invitations();
+	}
 }
 
 /**
