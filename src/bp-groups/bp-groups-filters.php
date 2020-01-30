@@ -292,7 +292,7 @@ function bp_groups_user_can_filter( $retval, $user_id, $capability, $site_id, $a
 
 			/*
 			* The group must accept membership requests, and the user should not
-			* currently be a member or be banned.
+			* currently be a member, have an active request, or be banned.
 			*/
 			$group = groups_get_group( $group_id );
 			if ( 'private' === bp_get_group_status( $group )
@@ -321,19 +321,19 @@ function bp_groups_user_can_filter( $retval, $user_id, $capability, $site_id, $a
 				$invite_status = bp_group_get_invite_status( $group_id );
 
 				switch ( $invite_status ) {
-					case 'admins':
+					case 'admins' :
 						if ( groups_is_user_admin( $user_id, $group_id ) ) {
 							$retval = true;
 						}
 						break;
 
-					case 'mods':
+					case 'mods' :
 						if ( groups_is_user_mod( $user_id, $group_id ) || groups_is_user_admin( $user_id, $group_id ) ) {
 							$retval = true;
 						}
 						break;
 
-					case 'members':
+					case 'members' :
 						if ( groups_is_user_member( $user_id, $group_id ) ) {
 							$retval = true;
 						}
@@ -356,8 +356,8 @@ function bp_groups_user_can_filter( $retval, $user_id, $capability, $site_id, $a
 			* currently be a member or be banned from the group.
 			*/
 			$group = groups_get_group( $group_id );
-			if ( in_array( bp_get_group_status( $group ), array( 'private', 'hidden' ), true )
-				&& ! groups_is_user_member( $user_id, $group->id )
+			if (
+				! groups_is_user_member( $user_id, $group->id )
 				&& ! groups_is_user_banned( $user_id, $group->id )
 			) {
 				$retval = true;
@@ -376,10 +376,10 @@ function bp_groups_user_can_filter( $retval, $user_id, $capability, $site_id, $a
 			if ( $user_id === bp_loggedin_user_id() ) {
 				$retval = $group->user_has_access;
 
-				/*
-				* If the check is for a specified user who is not the logged-in user
-				* run the check manually.
-				*/
+			/*
+			 * If the check is for a specified user who is not the logged-in user
+			 * run the check manually.
+			 */
 			} elseif ( 'public' === bp_get_group_status( $group ) || groups_is_user_member( $user_id, $group->id ) ) {
 				$retval = true;
 			}
@@ -397,10 +397,10 @@ function bp_groups_user_can_filter( $retval, $user_id, $capability, $site_id, $a
 			if ( $user_id === bp_loggedin_user_id() ) {
 				$retval = $group->is_visible;
 
-				/*
-				* If the check is for a specified user who is not the logged-in user
-				* run the check manually.
-				*/
+			/*
+			 * If the check is for a specified user who is not the logged-in user
+			 * run the check manually.
+			 */
 			} elseif ( 'hidden' !== bp_get_group_status( $group ) || groups_is_user_member( $user_id, $group->id ) ) {
 				$retval = true;
 			}
