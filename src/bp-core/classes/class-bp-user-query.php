@@ -449,6 +449,13 @@ class BP_User_Query {
 			$sql['where']['member_type'] = $member_type_clause;
 		}
 
+		$found_user_ids = array();
+		if ( is_multisite() && ! bp_is_plugin_active_for_network( basename( constant( 'BP_PLUGIN_DIR' ) ) . '/bp-loader.php' ) ) {
+			$meta_sql = $wpdb->prepare( "SELECT user_id FROM {$wpdb->usermeta} WHERE meta_key = %s AND meta_value = %s", 'primary_blog', get_current_blog_id() );
+
+			$found_user_ids = $wpdb->get_col( $meta_sql );
+		}
+
 		// 'meta_key', 'meta_value' allow usermeta search
 		// To avoid global joins, do a separate query.
 		if ( false !== $meta_key ) {
@@ -458,13 +465,19 @@ class BP_User_Query {
 				$meta_sql .= $wpdb->prepare( ' AND meta_value = %s', $meta_value );
 			}
 
-			$found_user_ids = $wpdb->get_col( $meta_sql );
+			$meta_user_ids = $wpdb->get_col( $meta_sql );
 
 			if ( ! empty( $found_user_ids ) ) {
-				$sql['where'][] = "u.{$this->uid_name} IN (" . implode( ',', wp_parse_id_list( $found_user_ids ) ) . ')';
+				$found_user_ids = array_intersect( $found_user_ids, $meta_user_ids );
 			} else {
-				$sql['where'][] = '1 = 0';
+				$found_user_ids = $meta_user_ids;
 			}
+		}
+
+		if ( ! empty( $found_user_ids ) ) {
+			$sql['where'][] = "u.{$this->uid_name} IN (" . implode( ',', wp_parse_id_list( $found_user_ids ) ) . ')';
+		} else {
+			$sql['where'][] = '1 = 0';
 		}
 
 		// 'per_page', 'page' - handles LIMIT.

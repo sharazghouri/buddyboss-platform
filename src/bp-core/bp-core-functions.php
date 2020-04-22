@@ -4575,3 +4575,29 @@ function bp_core_get_group_avatar( $legacy_user_avatar_name, $legacy_group_avata
 
 	return $group_avatar;
 }
+
+/**
+ * Determines whether the plugin is active for the entire network.
+ *
+ * Only plugins installed in the plugins/ folder can be active.
+ *
+ * Plugins in the mu-plugins/ folder can't be "activated," so this function will
+ * return false for those plugins.
+ *
+ * @param string $plugin Path to the plugin file relative to the plugins directory.
+ *
+ * @return bool True if active for the network, otherwise false.
+ * @since BuddyBoss 1.3.2
+ */
+function bp_is_plugin_active_for_network( $plugin ) {
+	if ( ! is_multisite() ) {
+		return false;
+	}
+
+	$plugins = get_site_option( 'active_sitewide_plugins' );
+	if ( isset( $plugins[ $plugin ] ) ) {
+		return true;
+	}
+
+	return false;
+}
